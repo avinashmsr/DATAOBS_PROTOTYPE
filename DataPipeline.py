@@ -40,3 +40,12 @@ def validate_data(context, data: pd.DataFrame) -> pd.DataFrame:
     else: 
         context.log.info(f"Data valid for ticker: {data.iloc[0]['Ticker']}") 
         return data
+    
+@op(ins={"data": In(dagster_type=pd.DataFrame)},
+    out=Out(pd.DataFrame))
+def clean_data(context, data: pd.DataFrame) -> pd.DataFrame:
+    # Remove Adj Close columns from Data
+    data.drop("Adj Close", axis=1, inplace=True)
+    
+    # Return the updated DataFrame
+    return data
