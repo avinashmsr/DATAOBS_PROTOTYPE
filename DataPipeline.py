@@ -6,7 +6,6 @@ import pandas as pd
 
 @op(ins={"ticker": In(dagster_type=str)},
     out=Out(pd.DataFrame))
-
 def download_data(context, ticker: str) -> pd.DataFrame:
     # Calculate start and end dates for the download
     end_date = datetime.now().date()
@@ -24,3 +23,10 @@ def download_data(context, ticker: str) -> pd.DataFrame:
 
     return data
 
+@op(out=Out(str))
+def get_netflix() -> str:
+    return "NFLX"
+
+@op(out=Out(str))
+def get_disney() -> str:
+    return "DIS"
