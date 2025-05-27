@@ -30,3 +30,13 @@ def get_netflix() -> str:
 @op(out=Out(str))
 def get_disney() -> str:
     return "DIS"
+
+@op(ins={"data": In(dagster_type=pd.DataFrame)},          
+    out=Out(pd.DataFrame)) 
+def validate_data(context, data: pd.DataFrame) -> pd.DataFrame: 
+    if data.empty: 
+        context.log.error(f"Data invalid for ticker: {data.iloc[0]['Ticker']}")     
+        return data 
+    else: 
+        context.log.info(f"Data valid for ticker: {data.iloc[0]['Ticker']}") 
+        return data
