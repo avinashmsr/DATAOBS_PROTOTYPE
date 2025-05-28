@@ -8,20 +8,17 @@ import pandas as pd
     out=Out(pd.DataFrame))
 def get_ticker_data(context, ticker: str) -> pd.DataFrame:
     # Calculate start and end dates for the download
+    time_period = 180 # this is the number of days
     end_date = datetime.now().date()
-    start_date = end_date - timedelta(days=1)
+    start_date = end_date - timedelta(days=time_period)
     
-    # Download the data for Netflix ticker
-    data = yf.download(ticker, start=start_date, end=end_date, interval="1m")
+    # Fetching the data for Netflix ticker
+    ticker_data = yf.Ticker(ticker)
+    
+    # Filtering the last 6 months / 180 days of ticker data
+    ticker_data_filtered = ticker_data.history(start=start_date, end=end_date)
 
-    # Filter to yesterday's data only
-    yesterday = (datetime.now() - timedelta(days=1)).date()
-    data = data.loc[data.index.date == yesterday]
-
-    # Add column for ticker symbol
-    data['Ticker'] = ticker
-
-    return data
+    return ticker_data_filtered
 
 @op(out=Out(str))
 def get_netflix() -> str:
