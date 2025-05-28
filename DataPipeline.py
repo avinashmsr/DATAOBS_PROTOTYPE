@@ -6,7 +6,7 @@ import pandas as pd
 
 @op(ins={"ticker": In(dagster_type=str)},
     out=Out(pd.DataFrame))
-def download_data(context, ticker: str) -> pd.DataFrame:
+def get_ticker_data(context, ticker: str) -> pd.DataFrame:
     # Calculate start and end dates for the download
     end_date = datetime.now().date()
     start_date = end_date - timedelta(days=1)
