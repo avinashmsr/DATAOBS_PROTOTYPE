@@ -8,15 +8,16 @@ import pandas as pd
     out=Out(pd.DataFrame))
 def get_ticker_data(context, ticker: str) -> pd.DataFrame:
     # Calculate start and end dates for the download
-    time_period = 180 # this is the number of days
+    time_period = 1 # last 1 day(s) of ticker data
     end_date = datetime.now().date()
     start_date = end_date - timedelta(days=time_period)
     
     # Fetching the data for Netflix ticker
     ticker_data = yf.Ticker(ticker)
     
-    # Filtering the last 6 months / 180 days of ticker data
-    ticker_data_filtered = ticker_data.history(start=start_date, end=end_date)
+    # Filtering the ticker data - to pull historical data in 1-minute increments for that ticker
+    time_interval = "1m"
+    ticker_data_filtered = ticker_data.history(start=start_date, end=end_date, interval=time_interval)
 
     return ticker_data_filtered
 
