@@ -19,6 +19,9 @@ def get_ticker_data(context, ticker: str) -> pd.DataFrame:
     time_interval = "1m"
     ticker_data_filtered = ticker_data.history(start=start_date, end=end_date, interval=time_interval)
 
+    # Add column for ticker symbol
+    ticker_data_filtered['Ticker'] = ticker
+
     return ticker_data_filtered
 
 @op(out=Out(str))
